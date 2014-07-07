@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		033BAC8E19655FC100E3689D /* QuartzCompositionPlayer.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 033BAC8D19655FC100E3689D /* QuartzCompositionPlayer.qtz */; };
+		038562DD196ADF66005722CF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 038562DC196ADF66005722CF /* README.txt */; };
 		03E2D9301951E34D00FE9D85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E2D92F1951E34D00FE9D85 /* Cocoa.framework */; };
 		03E2D93A1951E34E00FE9D85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03E2D9381951E34E00FE9D85 /* InfoPlist.strings */; };
 		03E2D93C1951E34E00FE9D85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 03E2D93B1951E34E00FE9D85 /* main.m */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		033BAC8D19655FC100E3689D /* QuartzCompositionPlayer.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; path = QuartzCompositionPlayer.qtz; sourceTree = "<group>"; };
+		038562DC196ADF66005722CF /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		03E2D92C1951E34D00FE9D85 /* QuartzCompositionPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuartzCompositionPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03E2D92F1951E34D00FE9D85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		03E2D9321951E34D00FE9D85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -105,6 +107,7 @@
 				03E2D93B1951E34E00FE9D85 /* main.m */,
 				03E2D93D1951E34E00FE9D85 /* QuartzCompositionPlayer-Prefix.pch */,
 				03E2D93E1951E34E00FE9D85 /* Credits.rtf */,
+				038562DC196ADF66005722CF /* README.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 				03E2D9401951E34E00FE9D85 /* Credits.rtf in Resources */,
 				03E2D9461951E34E00FE9D85 /* MainMenu.xib in Resources */,
 				033BAC8E19655FC100E3689D /* QuartzCompositionPlayer.qtz in Resources */,
+				038562DD196ADF66005722CF /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

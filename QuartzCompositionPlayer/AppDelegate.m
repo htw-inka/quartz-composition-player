@@ -26,6 +26,26 @@
     
     NSMutableDictionary* qtzArgsDictionary = [NSMutableDictionary dictionary];
     
+    
+    // HERE WE PROGRAMATICALLY CREATE THE QCVIEW
+    qcView = [[QCView alloc] initWithFrame:[self.window.contentView frame]];
+    [self.window.contentView addSubview:qcView];
+    
+    //THIS IS FOR PROGRAMMATIC AUTO-LAYOUT...
+    [qcView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    NSDictionary *views = NSDictionaryOfVariableBindings(qcView);
+    [self.window.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[qcView]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    [self.window.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[qcView]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    
+    // THIS IS THE PART WHERE WE PROCESS COMMAND LINE ARGUMENTS
     cmdArguments = [[NSProcessInfo processInfo] arguments];
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterNoStyle];
@@ -35,30 +55,27 @@
     }
     
     else {
-        for (int i = 0; i< cmdArguments.count; i++){
-            NSString* arg = [cmdArguments objectAtIndex:i];
-            if ([arg isEqualToString:kCMDLN_HELP_TRIGGER] )
+        for (NSString* arg in cmdArguments){
+            if ([arg hasPrefix: kCMDLN_HELP_TRIGGER] )
             {
-                NSLog(@"[INFO] -composition <path>\t\t\t\t\t When set followed by a path the given composition will be loaded.");
-                NSLog(@"[INFO] -arguments [key:value,key:value,...]\t When set a collection of key:value pairs separated by ',' surrounded by '[]' is expected containing the arguments that should be passed to the quartz composition.");
-                NSLog(@"[INFO] -window-size [X,Y]\t\t\t\t\t When set followed by two numbers seperated by ',' the application will start with the given size. (Default: 300,100)");
-                NSLog(@"[INFO] -window-origin [X,Y] \t\t\t\t\t When set followed by two numbers seperated by ',' the application will start at the given position. (Default: 0,0)");
-                NSLog(@"[INFO] -help\t\t\t\t\t\t\t\t Shows this page (help).");
+                NSString* help = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"README" ofType:@"txt"]
+                                                           encoding: NSUTF8StringEncoding error: nil];
+                NSLog(@"%@",help);
                 exit(0);
             }            
-            else if ([arg isEqualToString:kCMDLN_SIZE_TRIGGER])
+            else if ([arg hasPrefix:kCMDLN_SIZE_TRIGGER])
             {
                 if (!size_set)
                 {
                     size_set = YES;
-                    NSString* tmp = [cmdArguments objectAtIndex:i+1];
+                    NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
                     if ([tmp rangeOfString:@","].location != NSNotFound)
                     {
                         NSNumber* width  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
                         NSNumber* height = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:@","].location) + 1] ];
                         if (width == nil || height == nil)
                         {
-                            NSLog(@"[ERROR] Can't initialize window with size \"%@x%@\". Please use -help for a list of available command line arguments.", width, height);
+                            NSLog(@"[ERROR] Can't initialize window with size \"%@x%@\". Please use -help for a list of available command ¥line arguments.", width, height);
                             exit(1);
                         }
                         else
@@ -67,15 +84,14 @@
                             window_size.height = [height floatValue];
                         }
                     }
-                    i++;
                 }
             }
-            else if ([arg isEqualToString:kCMDLN_ORIGIN_TRIGGER])
+            else if ([arg hasPrefix:kCMDLN_ORIGIN_TRIGGER])
             {
                 if (!origin_set)
                 {
-                    size_set = YES;
-                    NSString* tmp = [cmdArguments objectAtIndex:i+1];
+                    origin_set = YES;
+                    NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
                     if ([tmp rangeOfString:@","].location != NSNotFound)
                     {
                         NSNumber* x  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
@@ -91,15 +107,14 @@
                             window_origin.y = [y floatValue];
                         }
                     }
-                    i++;
                 }
             }
-            else if ([arg isEqualToString:kCMDLN_PATH_TRIGGER])
+            else if ([arg hasPrefix: kCMDLN_PATH_TRIGGER])
             {
                 if (!path_set)
                 {
                     path_set = YES;
-                    NSString* custom_path = [cmdArguments objectAtIndex:i+1];
+                    NSString* custom_path = [(NSArray*)[arg componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPERATOR]lastObject];
                     if (![[NSFileManager defaultManager] fileExistsAtPath:custom_path])
                     {
                         NSLog(@"[ERROR] Can't initialize window with composition from path \"%@\". File does not exist.", custom_path);
@@ -114,34 +129,40 @@
                     
                     NSLog(@"[INFO] Loading Quartz Composition at path \"%@\".", custom_path);
                     path = custom_path;
-                    i++;
                 }
             }
-            else if ([arg isEqualToString:kCMDLN_ARGS_TRIGGER])
+            else if ([arg hasPrefix: kCMDLN_ARGS_TRIGGER])
             {
                 if (!args_set)
                 {
-                    NSString* qtzArgsString = [cmdArguments objectAtIndex:i+1];
+                    NSString* qtzArgsString = [(NSArray*)[arg componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
+                    
                     if (!path_set)
                     {
-                        NSLog(@"[ERROR] Can't use \"%@\" as quartz composition arguments. You have not set any custom quartz composition to be loaded.", qtzArgsString);
+                        NSLog(@"[ERROR] Can't use your custom quartz composition arguments. You have not set any custom quartz composition path.");
                         exit(1);
                     }
                     
                     args_set = YES;                    
-                    Boolean format = [qtzArgsString hasPrefix:@"["] && [qtzArgsString hasSuffix:@"]"];
-                    
-                    if (!format)
-                    {
-                        NSLog(@"[ERROR] Can't use \"%@\" as quartz composition arguments. Arguments have to be without any spaces surrounded by \"[ ]\" and separated by \",\"to be accepted.", qtzArgsString);
+                    if ( ![qtzArgsString hasPrefix:@"{"]) {
+                        NSLog(@"[ERROR] Can't process your quartz composition arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
                         exit(1);
                     }
-                    else
-                    {
+                    
+                    long index = [cmdArguments indexOfObject:arg]+1;
+                    while (![qtzArgsString hasSuffix:@"}"] && index < cmdArguments.count) {
+                        qtzArgsString = [qtzArgsString stringByAppendingString:[NSString stringWithFormat:@" %@",[cmdArguments objectAtIndex: index]] ];
+                        index++;
+                    }
+                    if (index >= cmdArguments.count) {
+                        NSLog(@"[ERROR] Can't process your quartz composition arguments. No closing \"}\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
+                        exit(1);
+                        
+                    } else {
                         NSArray* qtzArgsArray = [(NSString*)[qtzArgsString substringWithRange:NSMakeRange(1, qtzArgsString.length-2)] componentsSeparatedByString:@","];
                         if (qtzArgsArray.count <= 0)
                         {
-                            NSLog(@"[ERROR] Can't use \"%@\" as quartz composition arguments. Arguments have to be without any spaces surrounded by \"[ ]\" and separated by \",\"to be accepted.", qtzArgsString);
+                            NSLog(@"[ERROR] Can't process your quartz composition arguments. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
                             exit(1);
                         }
                         else
@@ -163,26 +184,29 @@
                                 
                         }
                     }
-                    i++;
                 }
             }
             else
             {
-                NSLog(@"WARNING: Unknown argument \"%@\" will be ignored. Please use -help to see available command line arguments.", arg);
+                // NSLog(@"[WARNING] Unknown argument \"%@\" will be ignored. Please use -help to see available command line arguments.", arg);
             }
             
         }
     }
     
+    // NOW WE RESET THE SIZE OF THE WINDOW; THE QUARTZVIEW WILL AUTOMATICALLY RESIZE
     [window setFrame:NSMakeRect(window_origin.x, window_origin.y, window_size.width, window_size.height) display:YES];
     
+    // NOW WE'RE LOADING THE QUARTZ COMPOSITION... CUSTOM OR STANDARD ONE DOESN'T MATTER
     [self loadComposition: path];
     
-    for (NSString* key in qtzArgsDictionary) {
-        [objectController setValue: [qtzArgsDictionary valueForKey: key] forKeyPath: [NSString stringWithFormat:@"selection.patch.%@.Value", key] ];
+    // PASSING THE LIST OF GIVEN ARGUMENTS TO THE CUSTOM QUARTZ COMPOSITION
+    if (path_set) {
+        for (NSString* key in qtzArgsDictionary) {
+            [qcView setValue: [qtzArgsDictionary valueForKey: key] forKeyPath: [NSString stringWithFormat:@"patch.%@.Value", key] ];
+        }
     }
-    
-    [qcView setFrame:NSMakeRect(0, 0, window_size.width, window_size.height)];
+
     [qcView startRendering];
     
 }

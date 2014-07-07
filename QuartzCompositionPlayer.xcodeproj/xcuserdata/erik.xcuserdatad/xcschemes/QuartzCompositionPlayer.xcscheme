@@ -63,27 +63,19 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-composition"
+            argument = "-window-origin=100,100"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;/Users/erik/Development/medienfassade/ShellGame/Quartz Anwendung/shell_game_medienfassade.qtz&quot;"
+            argument = "-composition=&quot;/Users/erik/Development/quartz-composition-player/QuartzCompositionPlayer/QuartzCompositionPlayer.qtz&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-arguments"
+            argument = "-arguments={display_text:Passed as an Argument,noKey:fakeValue}"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "[key1:value1,key2:value2,key3:value3]"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-window-size"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "1280,360"
+            argument = "-window-size=1280,360"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -16,6 +16,7 @@
 #define kCMDLN_ORIGIN_TRIGGER @"-window-origin"
 #define kCMDLN_PATH_TRIGGER @"-composition"
 #define kCMDLN_ARGS_TRIGGER @"-arguments"
+#define kCMDLN_ARG_VALUE_SEPERATOR @"="
 
 #pragma end
 
