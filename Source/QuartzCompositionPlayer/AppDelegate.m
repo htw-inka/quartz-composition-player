@@ -50,148 +50,143 @@
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterNoStyle];
     
-    if (cmdArguments.count <= 3) {
-        NSLog(@"[INFO] No program arguments given.\nStarting with default values (Size: 300x100, Origin: 0,0).\nUse -help to see available command line arguments.");
-    }
     
-    else {
-        for (NSString* arg in cmdArguments){
-            if ([arg hasPrefix: kCMDLN_HELP_TRIGGER] )
+    for (NSString* arg in cmdArguments){
+        if ([arg hasPrefix: kCMDLN_HELP_TRIGGER] )
+        {
+            NSString* help = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"README" ofType:@"txt"]
+                                                       encoding: NSUTF8StringEncoding error: nil];
+            NSLog(@"%@",help);
+            exit(0);
+        }            
+        else if ([arg hasPrefix:kCMDLN_SIZE_TRIGGER])
+        {
+            if (!size_set)
             {
-                NSString* help = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"README" ofType:@"txt"]
-                                                           encoding: NSUTF8StringEncoding error: nil];
-                NSLog(@"%@",help);
-                exit(0);
-            }            
-            else if ([arg hasPrefix:kCMDLN_SIZE_TRIGGER])
-            {
-                if (!size_set)
+                size_set = YES;
+                NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
+                if ([tmp rangeOfString:@","].location != NSNotFound)
                 {
-                    size_set = YES;
-                    NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
-                    if ([tmp rangeOfString:@","].location != NSNotFound)
+                    NSNumber* width  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
+                    NSNumber* height = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:@","].location) + 1] ];
+                    if (width == nil || height == nil)
                     {
-                        NSNumber* width  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
-                        NSNumber* height = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:@","].location) + 1] ];
-                        if (width == nil || height == nil)
-                        {
-                            NSLog(@"[ERROR] Can't initialize window with size \"%@x%@\". Please use -help for a list of available command ¥line arguments.", width, height);
-                            exit(1);
-                        }
-                        else
-                        {
-                            window_size.width = [width floatValue];
-                            window_size.height = [height floatValue];
-                        }
+                        NSLog(@"[ERROR] Can't initialize window with size \"%@x%@\". Please use -help for a list of available command ¥line arguments.", width, height);
+                        exit(1);
+                    }
+                    else
+                    {
+                        window_size.width = [width floatValue];
+                        window_size.height = [height floatValue];
                     }
                 }
             }
-            else if ([arg hasPrefix:kCMDLN_ORIGIN_TRIGGER])
+        }
+        else if ([arg hasPrefix:kCMDLN_ORIGIN_TRIGGER])
+        {
+            if (!origin_set)
             {
-                if (!origin_set)
+                origin_set = YES;
+                NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
+                if ([tmp rangeOfString:@","].location != NSNotFound)
                 {
-                    origin_set = YES;
-                    NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
-                    if ([tmp rangeOfString:@","].location != NSNotFound)
+                    NSNumber* x  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
+                    NSNumber* y = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:@","].location) + 1] ];
+                    if (x == nil || y == nil)
                     {
-                        NSNumber* x  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
-                        NSNumber* y = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:@","].location) + 1] ];
-                        if (x == nil || y == nil)
-                        {
-                            NSLog(@"[ERROR]: Can't initialize window with origin \"%@x%@\". Please use -help for a list of available command line arguments.", x, y);
-                            exit(1);
-                        }
-                        else
-                        {
-                            window_origin.x = [x floatValue];
-                            window_origin.y = [y floatValue];
-                        }
+                        NSLog(@"[ERROR]: Can't initialize window with origin \"%@x%@\". Please use -help for a list of available command line arguments.", x, y);
+                        exit(1);
+                    }
+                    else
+                    {
+                        window_origin.x = [x floatValue];
+                        window_origin.y = [y floatValue];
                     }
                 }
             }
-            else if ([arg hasPrefix: kCMDLN_PATH_TRIGGER])
+        }
+        else if ([arg hasPrefix: kCMDLN_PATH_TRIGGER])
+        {
+            if (!path_set)
             {
+                path_set = YES;
+                NSString* custom_path = [(NSArray*)[arg componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPERATOR]lastObject];
+                if (![[NSFileManager defaultManager] fileExistsAtPath:custom_path])
+                {
+                    NSLog(@"[ERROR] Can't initialize window with composition from path \"%@\". File does not exist.", custom_path);
+                    exit(1);
+                }
+                
+                else if (![[custom_path substringWithRange:NSMakeRange(custom_path.length-3, 3)] isEqualToString:@"qtz"])
+                {
+                    NSLog(@"[ERROR] Can't initialize application of file type \"%@\". Has to be a Quartz Composition (*.qtz).", custom_path);
+                    exit(1);
+                }                    
+                
+                NSLog(@"[INFO] Loading Quartz Composition at path \"%@\".", custom_path);
+                path = custom_path;
+            }
+        }
+        else if ([arg hasPrefix: kCMDLN_ARGS_TRIGGER])
+        {
+            if (!args_set)
+            {
+                NSString* qtzArgsString = [(NSArray*)[arg componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
+                
                 if (!path_set)
                 {
-                    path_set = YES;
-                    NSString* custom_path = [(NSArray*)[arg componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPERATOR]lastObject];
-                    if (![[NSFileManager defaultManager] fileExistsAtPath:custom_path])
-                    {
-                        NSLog(@"[ERROR] Can't initialize window with composition from path \"%@\". File does not exist.", custom_path);
-                        exit(1);
-                    }
-                    
-                    else if (![[custom_path substringWithRange:NSMakeRange(custom_path.length-3, 3)] isEqualToString:@"qtz"])
-                    {
-                        NSLog(@"[ERROR] Can't initialize application of file type \"%@\". Has to be a Quartz Composition (*.qtz).", custom_path);
-                        exit(1);
-                    }                    
-                    
-                    NSLog(@"[INFO] Loading Quartz Composition at path \"%@\".", custom_path);
-                    path = custom_path;
+                    NSLog(@"[ERROR] Can't use your custom quartz composition arguments. You have not set any custom quartz composition path.");
+                    exit(1);
                 }
-            }
-            else if ([arg hasPrefix: kCMDLN_ARGS_TRIGGER])
-            {
-                if (!args_set)
-                {
-                    NSString* qtzArgsString = [(NSArray*)[arg componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPERATOR] lastObject];
+                
+                args_set = YES;                    
+                if ( ![qtzArgsString hasPrefix:@"{"]) {
+                    NSLog(@"[ERROR] Can't process your quartz composition arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
+                    exit(1);
+                }
+                
+                long index = [cmdArguments indexOfObject:arg]+1;
+                while (![qtzArgsString hasSuffix:@"}"] && index < cmdArguments.count) {
+                    qtzArgsString = [qtzArgsString stringByAppendingString:[NSString stringWithFormat:@" %@",[cmdArguments objectAtIndex: index]] ];
+                    index++;
+                }
+                if (index >= cmdArguments.count) {
+                    NSLog(@"[ERROR] Can't process your quartz composition arguments. No closing \"}\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
+                    exit(1);
                     
-                    if (!path_set)
+                } else {
+                    NSArray* qtzArgsArray = [(NSString*)[qtzArgsString substringWithRange:NSMakeRange(1, qtzArgsString.length-2)] componentsSeparatedByString:@","];
+                    if (qtzArgsArray.count <= 0)
                     {
-                        NSLog(@"[ERROR] Can't use your custom quartz composition arguments. You have not set any custom quartz composition path.");
+                        NSLog(@"[ERROR] Can't process your quartz composition arguments. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
                         exit(1);
                     }
-                    
-                    args_set = YES;                    
-                    if ( ![qtzArgsString hasPrefix:@"{"]) {
-                        NSLog(@"[ERROR] Can't process your quartz composition arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
-                        exit(1);
-                    }
-                    
-                    long index = [cmdArguments indexOfObject:arg]+1;
-                    while (![qtzArgsString hasSuffix:@"}"] && index < cmdArguments.count) {
-                        qtzArgsString = [qtzArgsString stringByAppendingString:[NSString stringWithFormat:@" %@",[cmdArguments objectAtIndex: index]] ];
-                        index++;
-                    }
-                    if (index >= cmdArguments.count) {
-                        NSLog(@"[ERROR] Can't process your quartz composition arguments. No closing \"}\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
-                        exit(1);
-                        
-                    } else {
-                        NSArray* qtzArgsArray = [(NSString*)[qtzArgsString substringWithRange:NSMakeRange(1, qtzArgsString.length-2)] componentsSeparatedByString:@","];
-                        if (qtzArgsArray.count <= 0)
+                    else
+                    {
+                        for (NSString* qtzArg in qtzArgsArray)
                         {
-                            NSLog(@"[ERROR] Can't process your quartz composition arguments. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
-                            exit(1);
-                        }
-                        else
-                        {
-                            for (NSString* qtzArg in qtzArgsArray)
+                            NSArray* qtzArgArray = [qtzArg componentsSeparatedByString: @":"];
+                            Boolean separated = [qtzArgArray count] == 2;
+                            if (!separated)
                             {
-                                NSArray* qtzArgArray = [qtzArg componentsSeparatedByString: @":"];
-                                Boolean separated = [qtzArgArray count] == 2;
-                                if (!separated)
-                                {
-                                    NSLog(@"[WARNING] Will ignore argument \"%@\" because its not a valid key:value pair.", qtzArg);
-                                }
-                                else
-                                {
-                                    NSLog(@"[INFO] Will pass argument \"%@\" to quartz composition.", qtzArg);
-                                    [qtzArgsDictionary setValue: [qtzArgArray objectAtIndex:1] forKey: [qtzArgArray objectAtIndex:0]];
-                                }
+                                NSLog(@"[WARNING] Will ignore argument \"%@\" because its not a valid key:value pair.", qtzArg);
                             }
-                                
+                            else
+                            {
+                                NSLog(@"[INFO] Will pass argument \"%@\" to quartz composition.", qtzArg);
+                                [qtzArgsDictionary setValue: [qtzArgArray objectAtIndex:1] forKey: [qtzArgArray objectAtIndex:0]];
+                            }
                         }
+                            
                     }
                 }
             }
-            else
-            {
-                // NSLog(@"[WARNING] Unknown argument \"%@\" will be ignored. Please use -help to see available command line arguments.", arg);
-            }
-            
         }
+        else
+        {
+            // NSLog(@"[WARNING] Unknown argument \"%@\" will be ignored. Please use -help to see available command line arguments.", arg);
+        }
+        
     }
     
     // NOW WE RESET THE SIZE OF THE WINDOW; THE QUARTZVIEW WILL AUTOMATICALLY RESIZE
