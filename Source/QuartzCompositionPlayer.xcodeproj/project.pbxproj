@@ -279,7 +279,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuartzCompositionPlayer/QuartzCompositionPlayer-Prefix.pch";
 				INFOPLIST_FILE = "QuartzCompositionPlayer/QuartzCompositionPlayer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -291,7 +293,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuartzCompositionPlayer/QuartzCompositionPlayer-Prefix.pch";
 				INFOPLIST_FILE = "QuartzCompositionPlayer/QuartzCompositionPlayer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
