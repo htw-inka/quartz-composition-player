@@ -60,22 +60,34 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-help"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-window-origin=100,100"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-composition=&quot;/Users/erik/Development/quartz-composition-player/QuartzCompositionPlayer/QuartzCompositionPlayer.qtz&quot;"
-            isEnabled = "YES">
+            argument = "-composition=&quot;/Users/erik/Downloads/Geburt.qtz&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-composition=&quot;/Users/erik/Development/quartz-composition-player/Source/QuartzCompositionPlayer/QuartzCompositionPlayer.qtz&quot;"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-arguments={display_text:Passed as an Argument,noKey:fakeValue}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-window-size=LED-Grid"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-window-size=1280,360"
+            argument = "-image={path:&quot;/Users/erik/Downloads/Smartphone.jpg&quot;}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-video={path:&quot;/Users/erik/Downloads/L1_SZ04.mov&quot;}"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -8,23 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
-
-#pragma constants
-
-#define kCMDLN_HELP_TRIGGER @"-help"
-#define kCMDLN_SIZE_TRIGGER @"-window-size"
-#define kCMDLN_ORIGIN_TRIGGER @"-window-origin"
-#define kCMDLN_PATH_TRIGGER @"-composition"
-#define kCMDLN_ARGS_TRIGGER @"-arguments"
-#define kCMDLN_ARG_VALUE_SEPERATOR @"="
-
-#pragma end
+#import "CommandLineTool.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
     QCView* qcView;
     NSObjectController *objectController;
-    NSArray* cmdArguments;
+    CommandLineTool* _cmdLineTool;
 }
 
 @property(assign) IBOutlet NSWindow *window;

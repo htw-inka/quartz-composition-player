@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0310F50B197673DC009D6C45 /* CommandLineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0310F50A197673DC009D6C45 /* CommandLineTool.m */; };
 		033BAC8E19655FC100E3689D /* QuartzCompositionPlayer.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 033BAC8D19655FC100E3689D /* QuartzCompositionPlayer.qtz */; };
 		038562DD196ADF66005722CF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 038562DC196ADF66005722CF /* README.txt */; };
 		03E2D9301951E34D00FE9D85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E2D92F1951E34D00FE9D85 /* Cocoa.framework */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0310F509197673DC009D6C45 /* CommandLineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandLineTool.h; sourceTree = "<group>"; };
+		0310F50A197673DC009D6C45 /* CommandLineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandLineTool.m; sourceTree = "<group>"; };
 		033BAC8D19655FC100E3689D /* QuartzCompositionPlayer.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; path = QuartzCompositionPlayer.qtz; sourceTree = "<group>"; };
 		038562DC196ADF66005722CF /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		03E2D92C1951E34D00FE9D85 /* QuartzCompositionPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuartzCompositionPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +96,8 @@
 				033BAC8D19655FC100E3689D /* QuartzCompositionPlayer.qtz */,
 				03E2D9411951E34E00FE9D85 /* AppDelegate.h */,
 				03E2D9421951E34E00FE9D85 /* AppDelegate.m */,
+				0310F509197673DC009D6C45 /* CommandLineTool.h */,
+				0310F50A197673DC009D6C45 /* CommandLineTool.m */,
 				03E2D9441951E34E00FE9D85 /* MainMenu.xib */,
 				03E2D9361951E34E00FE9D85 /* Supporting Files */,
 			);
@@ -178,6 +183,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0310F50B197673DC009D6C45 /* CommandLineTool.m in Sources */,
 				03E2D93C1951E34E00FE9D85 /* main.m in Sources */,
 				03E2D9431951E34E00FE9D85 /* AppDelegate.m in Sources */,
 			);

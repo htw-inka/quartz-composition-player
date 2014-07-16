@@ -8,10 +8,14 @@ General application settings:
 -window-size=X,Y
     When set followed by two numbers separated by ',' the application will start with the give size.
     (Default: 300,100)
+    When set followed by the signal word 'LED-Grid' (without quotes) the application will automatically size to the LED grid size.
+    When set followed by the signal word 'LED-Complete' (without quotes) the application will automatically size to the LED grid plus spot lights.
 
 -window-origin=X,Y
     When set followed by two numbers separated by ',' the application will start at the given position.
     (Default: 0,0)
+    When set followed by the signal word 'LED-Grid' (without quotes) the application will automatically move to the LED grid position.
+    When set followed by the signal word 'LED-Complete' (without quotes) the application will automatically move to the LED grid plus spot lights position.
 
 Loading a custom Quartz composition:
 
