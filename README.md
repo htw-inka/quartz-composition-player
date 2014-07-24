@@ -31,7 +31,7 @@ argument      | `-composition=<path>`
 ### Showing media file(s)###
 argument    | `-image={path:<path>,<optionalParameter>:<optinalValue>,...}`
 :---------  | :---------
-            | Displays an image. Most common image file formats are supported: JPEG, TIFF, PNG, GIF, BMP, TGA, OpenEXR, JPEG 2000, PDF... Substitude <path> with a path or URL to the file's location. (required)
+            | Displays an image. Most common image file formats are supported: JPEG, TIFF, PNG, GIF, BMP, TGA, OpenEXR, JPEG 2000, PDF... Substitude `<path>` with a path or URL to the file's location. (required)
 
 optional parameter      | `width:<value>`
 :---------              | :---------
@@ -41,7 +41,7 @@ optional parameter      | `width:<value>`
         
 argument    | `-video={path:<path>,<optionalParameter>:<optinalValue>,...}`
 :-------    | :--------
-            | Displays a movie file. The video has to be a QuickTime movie in MOV format. Substitude <path> with a path or URL to the file's location. (required)
+            | Displays a movie file. The video has to be a QuickTime movie in MOV format. Substitude `<path>` with a path or URL to the file's location. (required)
 
 optional parameter      | `width:<value>`
 :-----                  | :-----
