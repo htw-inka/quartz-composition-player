@@ -30,10 +30,42 @@ Showing media file(s):
 -image={path:<path>,<optionalParameter>:<optinalValue>,...}
     Displays an image. Most common image file formats are supported: JPEG, TIFF, PNG, GIF, BMP, TGA, OpenEXR, JPEG 2000, PDF...
     Substitude <path> with a path or URL to the file's location. (required)
+    Optional Parameters are:
+        width:<value>
+            Use any pixel value > 0 or use "auto" if you want the width to adjust to height and keep aspect ratio.
+            Use "full" if you want to use the full window width. (Default: "auto")
+        height:<value>
+            Use any pixel value > 0 or use "auto" if you want the height to adjust to width and keep aspect ratio. (Default: "auto")
+            Use "full" if you want to use the full window height. (Default: "auto")
+        Beware: If both width and height are set to "auto" aspect ratio will be kept by scaling the image to fit the window in both dimensions.
+                If both width and height are set to "full" aspect ratio will be lost by scaling the image to fit the entire window.
         
 -video={path:<path>,<optionalParameter>:<optinalValue>,...}
-    Displays a video file. The video has to be a QuickTime Movie in MOV format.
+    Displays a movie file. The video has to be a QuickTime movie in MOV format.
     Substitude <path> with a path or URL to the file's location. (required)
+    Optional Parameters are:
+        width:<value>
+            Use any pixel value > 0 or use "auto" if you want the width to adjust to height and keep aspect ratio.
+            Use "full" if you want to use the full window width. (Default: "auto")
+        height:<value>
+            Use any pixel value > 0 or use "auto" if you want the height to adjust to width and keep aspect ratio. (Default: "auto")
+            Use "full" if you want to use the full window height. (Default: "auto")
+            Beware: If both width and height are set to "auto" aspect ratio will be kept by scaling the image to fit the window in both dimensions.
+                    If both width and height are set to "full" aspect ratio will be lost by scaling the image to fit the entire window.
+        loops:<value>
+            Use an integer bigger than 0 to set how often the movie should be played. If not set or with an integer less or equal to 0
+            the movie will be looped as long as the application is running.
+        rate:<value>
+            Use a decimal number to set the playback speed of the video. 0.0 meaning pause, 1.0 meaning normal playback speed, -1.0 meaning
+            reverse playback, 2.0 meaning double playback speed.
+        start:<value>
+            Use a positiv decimal number between zero and the duration of your movie to set the time stamp where the movie playback should start.
+            Negative values will be ignored. If the value exeeds the total movie duration this value will be ignored.
+            Set to "0" or don't set to start at the beginning of the video.
+        duration:<value>
+            Use a positiv decimal number bigger than zero to set the duration the movie should be played starting either at the time set via
+            start:<value> command or at the beginning of the video. If you set this to "0" the value set for start will be ingnored and the
+            whole video will be played. If the sum of the start time and the duration time exeed the movie duration this option will be ignored.
 
 -presentation={path:<path>,duration:<duration>,loop:<loop>,}
     Shows a slide show of all images inside the given path in alphabetical order.

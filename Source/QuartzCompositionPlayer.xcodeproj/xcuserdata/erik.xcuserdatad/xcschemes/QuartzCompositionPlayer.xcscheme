@@ -79,16 +79,32 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-window-size=LED-Grid"
+            argument = "-window-size=900,300"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-image={path:&quot;/Users/erik/Downloads/Smartphone.jpg&quot;}"
+            argument = "-image={path:&quot;/Users/erik/Downloads/Smartphone.jpg&quot;,width:auto,height:auto}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-image={path:&quot;/Users/erik/Downloads/Smartphone.jpg&quot;,width:full,height:50}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-image={path:&quot;/Users/erik/Downloads/Kommunikation.png&quot;}"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-video={path:&quot;/Users/erik/Downloads/L1_SZ04.mov&quot;}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-video={path:&quot;/Users/erik/Downloads/L1_SZ01-03.mov&quot;,width:400,height:auto,start:60.5,duration:10.5,rate:5.0,loops:10}"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-video={path:&quot;/Users/erik/Downloads/L1_SZ01-03.mov&quot;,width:400,height:auto}"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

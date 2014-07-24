@@ -10,35 +10,56 @@
 
 @implementation CommandLineTool
 
-NSString* const kCMDLN_HELP_TRIGGER                 = @"-help";
-NSString* const kCMDLN_SIZE_TRIGGER                 = @"-window-size";
-NSString* const kCMDLN_ORIGIN_TRIGGER               = @"-window-origin";
-NSString* const kCMDLN_COMPOSITION_TRIGGER                 = @"-composition";
-NSString* const kCMDLN_ARGS_TRIGGER                 = @"-arguments";
-NSString* const kCMDLN_ARG_VALUE_SEPARATOR          = @"=";
-NSString* const kCMDLN_ARG_LEDGRID                  = @"LED-Grid";
-NSString* const kCMDLN_ARG_LEDCOMPLETE              = @"LED-Complete";
-NSString* const KCMDLN_ARG_VALUE_PARAM_SEPARATOR    = @":";
+NSString* const kCMDLN_HELP_TRIGGER                     = @"-help";
+NSString* const kCMDLN_SIZE_TRIGGER                     = @"-window-size";
+NSString* const kCMDLN_ORIGIN_TRIGGER                   = @"-window-origin";
+NSString* const kCMDLN_COMPOSITION_TRIGGER              = @"-composition";
+NSString* const kCMDLN_ARGS_TRIGGER                     = @"-arguments";
+NSString* const kCMDLN_ARG_KEY_VALUE_SEPARATOR          = @"=";
+NSString* const kCMDLN_ARG_LEDGRID                      = @"LED-Grid";
+NSString* const kCMDLN_ARG_LEDCOMPLETE                  = @"LED-Complete";
+NSString* const kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR    = @":";
+NSString* const kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR  = @",";
 
-NSString* const kCMDLN_MEDIA_IMAGE_TRIGGER          = @"-image";
-NSString* const kCMDLN_MEDIA_VIDEO_TRIGGER          = @"-video";
-NSString* const kCMDLN_MEDIA_PRESENTATION_TRIGGER   = @"-presentation";
-NSString* const KCMDLN_MEDIA_PATH_TRIGGER           = @"path";
+NSString* const kCMDLN_MEDIA_IMAGE_TRIGGER              = @"-image";
+NSString* const kCMDLN_MEDIA_VIDEO_TRIGGER              = @"-video";
+NSString* const kCMDLN_MEDIA_PRESENTATION_TRIGGER       = @"-presentation";
+NSString* const kCMDLN_MEDIA_PATH_TRIGGER               = @"path";
+NSString* const kCMDLN_MEDIA_WIDTH_TRIGGER              = @"width";
+NSString* const kCMDLN_MEDIA_HEIGHT_TRIGGER             = @"height";
+NSString* const kCMDLN_MEDIA_LOOP_TRIGGER               = @"loop";
+NSString* const kCMDLN_MEDIA_START_TRIGGER              = @"start";
+NSString* const kCMDLN_MEDIA_DURATION_TRIGGER           = @"duration";
+NSString* const kCMDLN_MEDIA_RATE_TRIGGER               = @"rate";
 
-const float kDEFAULT_WINDOW_WIDTH               = 300;
-const float kDEFAULT_WINDOW_HEIGHT              = 100;
-const float kDEFAULT_WINDOW_POS_X               = 0;
-const float kDEFAULT_WINDOW_POS_Y               = 0;
+NSString* const kQTZ_COMP_MEDIATYPE_PARAM_KEY           = @"mediatype";
+NSString* const kQTZ_COMP_MEDIAPATH_PARAM_KEY           = @"mediapath";
+NSString* const kQTZ_COMP_MEDIAWIDTH_PARAM_KEY          = @"mediawidth";
+NSString* const kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY         = @"mediaheight";
+NSString* const kQTZ_COMP_MEDIASTART_PARAM_KEY          = @"mediastart";
+NSString* const kQTZ_COMP_MEDIADURATION_PARAM_KEY       = @"mediaduration";
+NSString* const kQTZ_COMP_MEDIALOOPS_PARAM_KEY          = @"medialoops";
+NSString* const kQTZ_COMP_MEDIARATE_PARAM_KEY           = @"mediarate";
 
-const float kLEDGRID_WINDOW_WIDTH               = 300;
-const float kLEDGRID_WINDOW_HEIGHT              = 100;
-const float kLEDGRID_WINDOW_POS_X               = 1962;
-const float kLEDGRID_WINDOW_POS_Y               = 784;
+NSString* const kQTZ_COMP_DEFAULT_MEDIASTART            = @"0";
+NSString* const kQTZ_COMP_DEFAULT_MEDIADURATION         = @"0";
+NSString* const kQTZ_COMP_DEFAULT_MEDIALOOPS            = @"0";
+NSString* const kQTZ_COMP_DEFAULT_MEDIARATE             = @"1";
 
-const float kLEDCOMPLETE_WINDOW_WIDTH           = 504;
-const float kLEDCOMPLETE_WINDOW_HEIGHT          = 208;
-const float kLEDCOMPLETE_WINDOW_POS_X           = 1860;
-const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
+const float kDEFAULT_WINDOW_WIDTH                       = 300;
+const float kDEFAULT_WINDOW_HEIGHT                      = 100;
+const float kDEFAULT_WINDOW_POS_X                       = 0;
+const float kDEFAULT_WINDOW_POS_Y                       = 0;
+
+const float kLEDGRID_WINDOW_WIDTH                       = 300;
+const float kLEDGRID_WINDOW_HEIGHT                      = 100;
+const float kLEDGRID_WINDOW_POS_X                       = 1962;
+const float kLEDGRID_WINDOW_POS_Y                       = 784;
+
+const float kLEDCOMPLETE_WINDOW_WIDTH                   = 504;
+const float kLEDCOMPLETE_WINDOW_HEIGHT                  = 208;
+const float kLEDCOMPLETE_WINDOW_POS_X                   = 1860;
+const float kLEDCOMPLETE_WINDOW_POS_Y                   = 784;
 
 @synthesize windowOrigin                  = _windowOrigin;
 @synthesize windowSize                    = _windowSize;
@@ -95,11 +116,11 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
         else if ([arg hasPrefix:kCMDLN_SIZE_TRIGGER]) {
             if (!_hasSizeSet) {
                 _hasSizeSet = YES;
-                NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPARATOR] lastObject];
+                NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_KEY_VALUE_SEPARATOR] lastObject];
                 
-                if ([tmp rangeOfString:@","].location != NSNotFound) {
-                    NSNumber* width  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
-                    NSNumber* height = [f numberFromString:(NSString*)[tmp substringFromIndex:([tmp rangeOfString:@","].location) + 1] ];
+                if ([tmp rangeOfString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR].location != NSNotFound) {
+                    NSNumber* width  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR].location] ];
+                    NSNumber* height = [f numberFromString:(NSString*)[tmp substringFromIndex:([tmp rangeOfString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR].location) + 1] ];
                     
                     if (width == nil || height == nil)  {
                         NSLog(@"[ERROR] Can't initialize window with size \"%@x%@\". Please use -help for a list of available command ¥line arguments.", width, height);
@@ -126,11 +147,11 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
             if (!_hasOriginSet) {
                 
                 _hasOriginSet = YES;
-                NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_VALUE_SEPARATOR] lastObject];
+                NSString* tmp = [(NSArray*)[arg componentsSeparatedByString: kCMDLN_ARG_KEY_VALUE_SEPARATOR] lastObject];
                 
-                if ([tmp rangeOfString:@","].location != NSNotFound) {
-                    NSNumber* x  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:@","].location] ];
-                    NSNumber* y = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:@","].location) + 1] ];
+                if ([tmp rangeOfString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR].location != NSNotFound) {
+                    NSNumber* x  = [f numberFromString:(NSString*)[tmp substringToIndex:[tmp rangeOfString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR].location] ];
+                    NSNumber* y = [f numberFromString:(NSString*)[tmp substringFromIndex: ([tmp rangeOfString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR].location) + 1] ];
                     
                     if (x == nil || y == nil) {
                         NSLog(@"[ERROR]: Can't initialize window with origin \"%@x%@\". Please use -help for a list of available command line arguments.", x, y);
@@ -204,7 +225,7 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
  */
 - (void)processCustomQuartzCompositionFromArgument:(NSString *)argument {
     
-    NSString* path = [(NSArray*)[argument componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPARATOR]lastObject];
+    NSString* path = [(NSArray*)[argument componentsSeparatedByString:kCMDLN_ARG_KEY_VALUE_SEPARATOR]lastObject];
     if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSLog(@"[ERROR] Can't initialize window with composition from path \"%@\". File does not exist.", path);
         exit(1);
@@ -229,7 +250,7 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
         exit(1);
     }
     
-    NSString* qtzArgsString = [(NSArray*)[argument componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPARATOR] lastObject];
+    NSString* qtzArgsString = [(NSArray*)[argument componentsSeparatedByString:kCMDLN_ARG_KEY_VALUE_SEPARATOR] lastObject];
     _hasArgsSet = YES;
     if ( ![qtzArgsString hasPrefix:@"{"]) {
         NSLog(@"[ERROR] Can't process your quartz composition arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
@@ -245,13 +266,13 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
         NSLog(@"[ERROR] Can't process your quartz composition arguments. No closing \"}\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\" to be accepted.");
         exit(1);
     } else {
-        NSArray* qtzArgsArray = [(NSString*)[qtzArgsString substringWithRange:NSMakeRange(1, qtzArgsString.length-2)] componentsSeparatedByString:@","];
+        NSArray* qtzArgsArray = [(NSString*)[qtzArgsString substringWithRange:NSMakeRange(1, qtzArgsString.length-2)] componentsSeparatedByString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR];
         if (qtzArgsArray.count <= 0) {
             NSLog(@"[ERROR] Can't process your quartz composition arguments. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
             exit(1);
         } else {
             for (NSString* qtzArg in qtzArgsArray) {
-                NSArray* qtzArgArray = [qtzArg componentsSeparatedByString: KCMDLN_ARG_VALUE_PARAM_SEPARATOR];
+                NSArray* qtzArgArray = [qtzArg componentsSeparatedByString: kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR];
                 Boolean separated = [qtzArgArray count] == 2;
                 if (!separated) {
                     NSLog(@"[WARNING] Will ignore argument \"%@\" because its not a valid key:value pair.", qtzArg);
@@ -269,7 +290,7 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
  \param argument The argument that contains the image path and the additional parameters.
  */
 - (void)processImageFromArgument:(NSString *)argument {
-    NSString* argString = [[argument componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPARATOR] lastObject];
+    NSString* argString = [[argument componentsSeparatedByString:kCMDLN_ARG_KEY_VALUE_SEPARATOR] lastObject];
     
     if ( ![argString hasPrefix:@"{"]) {
         NSLog(@"[ERROR] Can't process your image arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
@@ -281,18 +302,62 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
         argString = [argString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"{}"]];
     }
     
-    NSArray* paramArray = [argString componentsSeparatedByString:@","];
+    NSArray* paramArray = [argString componentsSeparatedByString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR];
+    Boolean autoWidth   = YES;
+    Boolean autoHeight  = YES;
     
     for (NSString* param in paramArray) {
-        if ([param hasPrefix:KCMDLN_MEDIA_PATH_TRIGGER]) {
-            NSString* path = [[param componentsSeparatedByString:KCMDLN_ARG_VALUE_PARAM_SEPARATOR] lastObject];
+        if ([param hasPrefix:kCMDLN_MEDIA_PATH_TRIGGER]) {
+            NSString* path = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
             if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
                 NSLog(@"[ERROR] Can't load image from path \"%@\". File does not exist.", path);
                 exit(1);
             }
+            NSLog(@"[INFO] Will load image from path \"%@\".", path);
+            [_quartzArgumentsDictionary setValue:@"image" forKey:kQTZ_COMP_MEDIATYPE_PARAM_KEY];
+            [_quartzArgumentsDictionary setValue:path forKey:kQTZ_COMP_MEDIAPATH_PARAM_KEY];
+        }
+        else if ([param hasPrefix:kCMDLN_MEDIA_WIDTH_TRIGGER]) {
+            NSString* width = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ([width isEqualToString:@"auto"]) {
+                NSLog(@"[INFO] Will display image with auto width.");
+            } else if ([width isEqualToString:@"full"]) {
+                NSLog(@"[INFO] Will display image with full width.");
+                autoWidth = NO;
+                [_quartzArgumentsDictionary setValue:[NSString stringWithFormat:@"%f", _windowSize.width]
+                                              forKey:kQTZ_COMP_MEDIAWIDTH_PARAM_KEY];
+            } else if ( (double)[width doubleValue] > 0) {
+                NSLog(@"[INFO] Will display image with width \"%@\".", width);
+                autoWidth = NO;
+                [_quartzArgumentsDictionary setValue:width forKey:kQTZ_COMP_MEDIAWIDTH_PARAM_KEY];
+            } else {
+                NSLog(@"[WARNING] Your given image width of \"%@\" can't be used. Will use \"auto\" instead.", width);
+            }
+        }
+        else if ([param hasPrefix:kCMDLN_MEDIA_HEIGHT_TRIGGER]) {
+            NSString* height = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ([height isEqualToString:@"auto"]) {
+                NSLog(@"[INFO] Will display image with auto height.");
+            } else if ([height isEqualToString:@"full"]) {
+                NSLog(@"[INFO] Will display image with full height.");
+                autoHeight = NO;
+                [_quartzArgumentsDictionary setValue:[NSString stringWithFormat:@"%f", _windowSize.height]
+                                              forKey:kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY];
+            } else if ( (double)[height doubleValue] > 0) {
+                NSLog(@"[INFO] Will display image with height \"%@\".", height);
+                autoHeight = NO;
+                [_quartzArgumentsDictionary setValue:height forKey:kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY];
+            } else {
+                NSLog(@"[WARNING] Your given image height of \"%@\" can't be used. Will use \"auto\" instead.", height);
+            }
+        }
+        
+        if (autoHeight && autoWidth) {
+            [_quartzArgumentsDictionary setValue:_windowSize.width >= _windowSize.height ? @"auto" : [NSString stringWithFormat:@"%f", _windowSize.width]
+                                          forKey:kQTZ_COMP_MEDIAWIDTH_PARAM_KEY];
+            [_quartzArgumentsDictionary setValue:_windowSize.width >= _windowSize.height ? [NSString stringWithFormat:@"%f", _windowSize.height] : @"auto"
+                                          forKey:kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY];
             
-            [_quartzArgumentsDictionary setValue:@"image" forKey:@"mediatype"];
-            [_quartzArgumentsDictionary setValue:path forKey:@"path"];
         }
     }
 }
@@ -302,7 +367,9 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
  \param argument The argument that contains the video path and the additional parameters.
  */
 - (void)processVideoFromArgument:(NSString *)argument {
-    NSString* argString = [[argument componentsSeparatedByString:kCMDLN_ARG_VALUE_SEPARATOR] lastObject];
+    NSString* argString = [[argument componentsSeparatedByString:kCMDLN_ARG_KEY_VALUE_SEPARATOR] lastObject];
+    Boolean autoWidth   = YES;
+    Boolean autoHeight  = YES;
     
     if ( ![argString hasPrefix:@"{"]) {
         NSLog(@"[ERROR] Can't process your video arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
@@ -314,23 +381,100 @@ const float kLEDCOMPLETE_WINDOW_POS_Y           = 784;
         argString = [argString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"{}"]];
     }
     
-    NSArray* paramArray = [argString componentsSeparatedByString:@","];
+    NSArray* paramArray = [argString componentsSeparatedByString:kCMDLN_ARG_VALUE_VALUE_VALUE_SEPARATOR];
     
     for (NSString* param in paramArray) {
-        if ([param hasPrefix:KCMDLN_MEDIA_PATH_TRIGGER]) {
-            NSString* path = [[param componentsSeparatedByString:KCMDLN_ARG_VALUE_PARAM_SEPARATOR] lastObject];
+        if ([param hasPrefix:kCMDLN_MEDIA_PATH_TRIGGER]) {
+            NSString* path = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
             
             if (![path hasSuffix:@".mov"]) {
                 NSLog(@"[ERROR] Can't load video from path \"%@\". Only files inside a MOV (*.mov) container are supported.", path);
                 exit(1);
-            }
-            else if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-                NSLog(@"[ERROR] Can't load file from path \"%@\". File does not exist.", path);
+            } else if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+                NSLog(@"[ERROR] Can't load video from path \"%@\". File does not exist.", path);
                 exit(1);
             }
+            NSLog(@"[INFO] Will load video from path \"%@\".", path);
+            [_quartzArgumentsDictionary setValue:@"video" forKey:kQTZ_COMP_MEDIATYPE_PARAM_KEY];
+            [_quartzArgumentsDictionary setValue:path forKey:kQTZ_COMP_MEDIAPATH_PARAM_KEY];
+        } else if ([param hasPrefix:kCMDLN_MEDIA_WIDTH_TRIGGER]) {
+            NSString* width = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ([width isEqualToString:@"auto"]) {
+                NSLog(@"[INFO] Will display image with auto width.");
+            } else if ([width isEqualToString:@"full"]) {
+                NSLog(@"[INFO] Will display image with full width.");
+                autoWidth = NO;
+                [_quartzArgumentsDictionary setValue:[NSString stringWithFormat:@"%f", _windowSize.width]
+                                              forKey:kQTZ_COMP_MEDIAWIDTH_PARAM_KEY];
+            } else if ( (double)[width doubleValue] > 0) {
+                NSLog(@"[INFO] Will display image with width \"%@\".", width);
+                autoWidth = NO;
+                [_quartzArgumentsDictionary setValue:width forKey:kQTZ_COMP_MEDIAWIDTH_PARAM_KEY];
+            } else {
+                NSLog(@"[WARNING] Your given image width of \"%@\" can't be used. Will use \"auto\" instead.", width);
+            }
+        } else if ([param hasPrefix:kCMDLN_MEDIA_HEIGHT_TRIGGER]) {
+            NSString* height = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ([height isEqualToString:@"auto"]) {
+                NSLog(@"[INFO] Will display video with auto height.");
+            } else if ([height isEqualToString:@"full"]) {
+                NSLog(@"[INFO] Will display video with full height.");
+                autoHeight = NO;
+                [_quartzArgumentsDictionary setValue:[NSString stringWithFormat:@"%f", _windowSize.height]
+                                              forKey:kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY];
+            } else if ( (double)[height doubleValue] > 0) {
+                NSLog(@"[INFO] Will display video with height \"%@\".", height);
+                autoHeight = NO;
+                [_quartzArgumentsDictionary setValue:height forKey:kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY];
+            } else {
+                NSLog(@"[WARNING] Your given video height of \"%@\" can't be used. Will use \"auto\" instead.", height);
+            }
+        } else if ([param hasPrefix:kCMDLN_MEDIA_LOOP_TRIGGER]) {
+            NSString* loops = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ([loops intValue] <= 0) {
+                NSLog(@"[INFO] You set a number of zero or less loops. Your video will loop infinitly.");
+                [_quartzArgumentsDictionary setValue:kQTZ_COMP_DEFAULT_MEDIALOOPS forKey:kQTZ_COMP_MEDIALOOPS_PARAM_KEY];
+            } else {
+                NSLog(@"[INFO] Will set loops to %d.", [loops intValue]);
+                [_quartzArgumentsDictionary setValue:[NSNumber numberWithInt:[loops intValue]] forKey:kQTZ_COMP_MEDIALOOPS_PARAM_KEY];
+            }
+        } else if ([param hasPrefix:kCMDLN_MEDIA_RATE_TRIGGER]) {
+            NSString* rate = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ((NSInteger*)[rate integerValue] != nil) {
+                NSLog(@"[INFO] Will use %@ as video rate.", rate);
+                [_quartzArgumentsDictionary setValue:rate forKey:kQTZ_COMP_MEDIARATE_PARAM_KEY];
+            } else {
+                NSLog(@"[WARNING] Can't use \"%@\" as video rate. Will use %@ instead.",rate, kQTZ_COMP_DEFAULT_MEDIARATE);
+                [_quartzArgumentsDictionary setValue:kQTZ_COMP_DEFAULT_MEDIARATE forKey:kQTZ_COMP_MEDIARATE_PARAM_KEY];
+            }
             
-            [_quartzArgumentsDictionary setValue:@"video" forKey:@"mediatype"];
-            [_quartzArgumentsDictionary setValue:path forKey:@"path"];
+        } else  if ([param hasPrefix:kCMDLN_MEDIA_START_TRIGGER ]) {
+            NSString* start = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ([start floatValue] < 0) {
+                NSLog(@"[WARNING] Your given video start time of \"%@\" can't be used. Will use %@ instead.", start, kQTZ_COMP_DEFAULT_MEDIASTART);
+                [_quartzArgumentsDictionary setValue:kQTZ_COMP_DEFAULT_MEDIASTART forKey:kQTZ_COMP_MEDIASTART_PARAM_KEY];
+            }
+            else {
+                NSLog(@"[INFO] Will start video at \"%@\" seconds.", start);
+                [_quartzArgumentsDictionary setValue:start forKey:kQTZ_COMP_MEDIASTART_PARAM_KEY];
+            }
+        } else if ([param hasPrefix:kCMDLN_MEDIA_DURATION_TRIGGER]) {
+            NSString* duration = [[param componentsSeparatedByString:kCMDLN_ARG_VALUE_KEY_VALUE_SEPARATOR] lastObject];
+            if ((float)[duration floatValue] <= 0.0f) {
+                NSLog(@"[WARNING] Your given video duration is less or equal to 0.0 therefore will be ignored.");
+                [_quartzArgumentsDictionary setValue:kQTZ_COMP_DEFAULT_MEDIADURATION forKey:kQTZ_COMP_MEDIADURATION_PARAM_KEY];
+            } else {
+                NSLog(@"[INFO] Will use %@ as video duration as long as it won't exeed the duration of full video.", duration);
+                [_quartzArgumentsDictionary setValue:duration forKey:kQTZ_COMP_MEDIADURATION_PARAM_KEY];
+            }
+        }
+        
+        if (autoHeight && autoWidth) {
+            [_quartzArgumentsDictionary setValue:_windowSize.width >= _windowSize.height ? @"auto" : [NSString stringWithFormat:@"%f", _windowSize.width]
+                                          forKey:kQTZ_COMP_MEDIAWIDTH_PARAM_KEY];
+            [_quartzArgumentsDictionary setValue:_windowSize.width >= _windowSize.height ? [NSString stringWithFormat:@"%f", _windowSize.height] : @"auto"
+                                          forKey:kQTZ_COMP_MEDIAHEIGHT_PARAM_KEY];
+            
         }
     }
 }
