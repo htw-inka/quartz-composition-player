@@ -17,7 +17,7 @@ argument  | `-help`
 ### General application settings ###
 argument            | `-window-size=W,H`
 :---------          | :---------
-                    | Substitute `W` and `H` with one integer each and the application will start with the give size. `windows-size=      LED-Grid` will automatically set the size to the LED grid size. `window-size=LED-Complete`will automatically size the application to the LED grid plus spot lights.
+                    | Substitute `W` and `H` with one integer each and the application will start with the give size. `windows-size=LED-Grid` will automatically set the size to the LED grid size. `window-size=LED-Complete`will automatically size the application to the LED grid plus spot lights.
 default             | `-window-size=300,100`
               
 argument            | `-window-origin=X,Y`
@@ -46,21 +46,21 @@ default             | `width:auto`
                         
 optional parameter  | `height:<value>`
 :---------          | :---------
-                    | Substitute `value` with an integer value > 0 or use `auto` if you want the height to adjust to width and keep aspect ratio. Use `full` if you want to use the full window height. **Beware:** If both `width:<value>` and `height:<value>` are set to `auto` aspect ratio will be kept by scaling the image to fit the window in both dimensions. If both `width:<value>` and `height:<value>` are set to `full` aspect ratio will be lost by scaling the image to fit the entire window.
+                    | Substitute `<value>` with an integer value > 0 or use `auto` if you want the height to adjust to width and keep aspect ratio. Use `full` if you want to use the full window height. **Beware:** If both `width:<value>` and `height:<value>` are set to `auto` aspect ratio will be kept by scaling the image to fit the window in both dimensions. If both `width:<value>` and `height:<value>` are set to `full` aspect ratio will be lost by scaling the image to fit the entire window.
 default             | `height:auto`                 
         
-argument    | `-video={path:<path>,<optionalParameter>:<optinalValue>,...}`
+argument    | `-video={path:<path>,<optionalParameter>:<optionalValue>,...}`
 :-------    | :--------
             | Displays a movie file. The video has to be a QuickTime movie in MOV format. Substitute `<path>` with a path or URL to the file's location. (required)
 
 optional parameter  | `width:<value>`
 :-----              | :-----
-                    | Substitute `value` with an integer value > 0 or use `auto` if you want the width to adjust to height and keep aspect ratio. Use `full` if you want to use the full window width.
+                    | Substitute `<value>` with an integer value > 0 or use `auto` if you want the width to adjust to height and keep aspect ratio. Use `full` if you want to use the full window width.
 default             | `width:auto`             
 
 optional parameter  | `height:<value>`
 :---------          | :---------
-                    | Substitute `value` with an integer value > 0 or use `auto` if you want the height to adjust to width and keep aspect ratio. Use `full` if you want to use the full window height. **Beware:** If both `width:<value>` and `height:<value>` are set to `auto` aspect ratio will be kept by scaling the image to fit the window in both dimensions. If both width and height are set to "full" aspect ratio will be lost by scaling the image to fit the entire window.
+                    | Substitute `<value>` with an integer value > 0 or use `auto` if you want the height to adjust to width and keep aspect ratio. Use `full` if you want to use the full window height. **Beware:** If both `width:<value>` and `height:<value>` are set to `auto` aspect ratio will be kept by scaling the image to fit the window in both dimensions. If both width and height are set to "full" aspect ratio will be lost by scaling the image to fit the entire window.
 default             | `height:auto`
                     
 optional parameter  | `loops:<value>`
@@ -70,17 +70,17 @@ default             | `loops:0`
                     
 optional parameter  | `rate:<value>`
 :---------          | :---------
-                    | Substitute `value` with a decimal number to set the playback speed of the video. `rate:0.0` meaning pause, `rate:1.0` meaning normal playback speed, `rate:-1.0` meaning reverse playback, `rate:2.0` meaning double playback speed. 
+                    | Substitute `<value>` with a decimal number to set the playback speed of the video. `rate:0.0` meaning pause, `rate:1.0` meaning normal playback speed, `rate:-1.0` meaning reverse playback, `rate:2.0` meaning double playback speed. 
 default                 | `rate:1.0`
 
 optional parameter  | `start:<value>`
 :---------          | :---------
-                    | Substitute `value` with a positiv decimal number between zero and the duration of your movie to set the time stamp where the movie playback should start. Negative values will be ignored. If the value exeeds the total movie duration this value will be ignored. Set to "0" or don't set to start at the beginning of the video. 
+                    | Substitute `<value>` with a positiv decimal number between zero and the duration of your movie to set the time stamp where the movie playback should start. Negative values will be ignored. If the value exeeds the total movie duration this value will be ignored. Set to "0" or don't set to start at the beginning of the video. 
 default                 |`start:0.0`
 
 optional parameter  | `duration:<value>`
 :---------          | :---------
-                    | Substitute `value` with a positiv decimal number bigger than zero to set the duration the movie should be played starting either at the time set via `start:<value>` command or at the beginning of the video. If you set this to "0.0" the value set for start will be ingnored and the whole video will be played. If the sum of the start time and the duration time exeed the movie duration this option will be ignored.
+                    | Substitute `<value>` with a positiv decimal number bigger than zero to set the duration the movie should be played starting either at the time set via `start:<value>` command or at the beginning of the video. If you set this to "0.0" the value set for start will be ingnored and the whole video will be played. If the sum of the start time and the duration time exeed the movie duration this option will be ignored.
 default             | `duration:0.0`
 
 ### Showing a presentation
