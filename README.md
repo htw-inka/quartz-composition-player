@@ -88,3 +88,12 @@ argument    | `-presentation={path:<path>,duration:<duration>,loop:<loop>,}`
 :-----      | :-----    
             | Shows a slide show of all images inside the given path in alphabetical order. Substitute `<path>` with the path to the directory where your slide images are located. (required) Substitute `<duration>` with the time in seconds each slide should be visible. (optional, default: 3) Substitute `<loop>` with a number that determines how often to go through the whole presentation. (optional, default: 1)
             | **NOT YET IMPLEMENTED**
+
+### Examples ###
+command line        | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -windows-size=1280,1024 -window-origin=200,200 -image={path:/Users/inka/Development/Images/Image.png,width:full,height:100}`
+:------             | :------
+result              | The command will start the application loading the image located at "/Users/inka/Development/Images/Image.png" with the same width of the application window and a height of 100 pixels. The application window has a size of 1280x1024 pixels and will origin at 200x200.
+
+command line        | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -windows-size=800,600 -window-origin=100,100 -video={path:/Users/inka/Development/Videos/Video.mov,width:full,height:full,loops:10,start:10,duration:25,rate:-1.0}`
+:------             | :------
+result              | The command will start the application loading the video located at "/Users/inka/Development/Videos/Video.mov" with the same width and height of the application window. The application window has a size of 800x600 pixels and will origin at 100x100. The application will play the video backwards 10 times, starting at 35 and ending at 10 seconds.
