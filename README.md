@@ -8,8 +8,8 @@ Either download the pre-compiled OS X App bundle out of the "Binary" directory o
 
 ## Usage
 Start the application by calling the binary inside the App bundle with `/path/to/app/bundle/Contents/Mac OS/QuartzCompositionPlayer`. By default this will only open a black window with the size of 300x100 pixels. To alter the content of the application use the following command line arguments:
-The following commands can be used via command line arguments:
 
+### Help ###
 argument  | `-help`
 :-------- | :------
           | Shows the help page ignoring all other arguments.
@@ -65,7 +65,7 @@ default             | `height:auto`
                     
 optional parameter  | `loops:<value>`
 :---------          | :---------
-                    | Substitute `value` with an integer value > 0 to set how often the movie should be played. If not set or with an integer less or equal to 0 the movie will be looped as long as the application is running.
+                    | Substitute `<value>` with an integer value > 0 to set how often the movie should be played. If not set or with an integer less or equal to 0 the movie will be looped as long as the application is running.
 default             | `loops:0`                    
                     
 optional parameter  | `rate:<value>`
