@@ -22,7 +22,7 @@ default             | `-window-size=300,100`
               
 argument            | `-window-origin=X,Y`
 :---------          | :---------
-                    | Substitute `X` and `Y` with one integer each and the application will start at the given position. `window-origin=LED-Grid` will automatically move the application to the LED grid position. `window-origin=LED-Complete` will automatically move the application to the LED grid plus spot lights position.
+                    | Substitute `X` and `Y` with one integer each and the application will start at the given position. `window-origin=LED-Grid` will automatically move the application to the LED grid position. `window-origin=LED-Complete` will automatically move the application to the LED grid plus spot lights position. **Beware:** Since Cocoa has a different coordinate system than most other programming frameworks 0,0 won't be in the upper-left corner but in the bottom-left corner.
 default             | `-window-origin=0,0`           
 
 ### Loading a custom Quartz composition ###
