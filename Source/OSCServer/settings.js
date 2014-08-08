@@ -1,0 +1,7 @@
+module.export =  {
+	PRESENTATION_HOST = '127.0.0.1',
+	PRESENTATION_PORT = 60000,
+
+	SERVER_HOST = '0.0.0.0',
+	SERVER_PORT = 60001
+};

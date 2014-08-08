@@ -84,10 +84,23 @@ optional parameter  | `duration:<value>`
 default             | `duration:0.0`
 
 ### Showing a presentation
-argument    | `-presentation={path:<path>,duration:<duration>,loop:<loop>,}`
+argument    | `-presentation={path:<path>,optionalParameter:<optionalValue>,...}`
 :-----      | :-----    
-            | Shows a slide show of all images inside the given path in alphabetical order. Substitute `<path>` with the path to the directory where your slide images are located. (required) Substitute `<duration>` with the time in seconds each slide should be visible. (optional, default: 3) Substitute `<loop>` with a number that determines how often to go through the whole presentation. (optional, default: 1)
-            | **NOT YET IMPLEMENTED**
+            | Shows a slide show of all images inside the given path in alphabetical order. Substitute `<path>` with the path to the directory where your slide images are located. (required)
+            
+optional parameter  | `duration:<value>` 
+:-----              | :------
+                    | Substitute `<value>` with the time in seconds each slide should be visible. 
+default             | `duration:3.0`
+
+optional parameter  | `loops:<value>`
+:-----              | :-----
+                    | Substitute `<value>` with a number that determines how often to go through the whole presentation.
+default             | `loops:1`
+
+optional parameter  | `control:<value>`
+:-----              | :-----
+                    | Substitue `<value>` with `manual` if you want to manually control the presentation. Show next slide with: `left mouse button`, `space key`, `return key`, `arrow right key` or `arrow down key`. Show previous slide with: `right mouse button`, `backspace key`, `arrow left key` or `arrow up key`. There is also an OSC receiver listing on port 60000 waiting for `/presentation/next/1` resp. `/presentation/prev/1` messages to control the presentation. **BEWARE:** Switching to manual controls will ignore your settings for `duration:<value>` and `loops:<value>`. 
 
 ### Examples ###
 command line        | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -windows-size=1280,1024 -window-origin=200,200 -image={path:/Users/inka/Development/Images/Image.png,width:full,height:100}`
@@ -97,3 +110,7 @@ result              | The command will start the application loading the image l
 command line        | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -windows-size=800,600 -window-origin=100,100 -video={path:/Users/inka/Development/Videos/Video.mov,width:full,height:full,loops:10,start:10,duration:25,rate:-1.0}`
 :------             | :------
 result              | The command will start the application loading the video located at "/Users/inka/Development/Videos/Video.mov" with the same width and height of the application window. The application window has a size of 800x600 pixels and will origin at 100x100. The application will play the video backwards 10 times, starting at 35 and ending at 10 seconds.
+
+commad line         | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -presentation={path:"/Users/inka/Documents/Bilder",duration:2.0,loops:2}`
+:-----              | :-----
+result              | The command will start the application loading all images inside the path "/Users/inka/Documents/Bilder", showing each image for "2.0" seconds and showing the whole presentation "2" times.
