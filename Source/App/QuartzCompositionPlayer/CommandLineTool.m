@@ -14,6 +14,7 @@ NSString* const kCMDLN_TRIGGER_HELP                             = @"-help";
 NSString* const kCMDLN_TRIGGER_SIZE                             = @"-window-size";
 NSString* const kCMDLN_TRIGGER_ORIGIN                           = @"-window-origin";
 NSString* const kCMDLN_TRIGGER_COMPOSITION                      = @"-composition";
+NSString* const kCMDLN_TRIGGER_WEBSITE                          = @"-website";
 NSString* const kCMDLN_TRIGGER_ARGS                             = @"-arguments";
 NSString* const kCMDLN_SEPARATOR_ARG_KEY_VALUE                  = @"=";
 NSString* const kCMDLN_SEPARATOR_ARG_VALUE_SUBKEY_SUBVALUE      = @":";
@@ -32,6 +33,7 @@ NSString* const kCMDLN_TRIGGER_MEDIA_START                      = @"start";
 NSString* const kCMDLN_TRIGGER_MEDIA_DURATION                   = @"duration";
 NSString* const kCMDLN_TRIGGER_MEDIA_RATE                       = @"rate";
 NSString* const kCMDLN_TRIGGER_MEDIA_CONTROL                    = @"control";
+NSString* const kCMDLN_TRIGGER_WEBSITE_URL                      = @"url";
 
 NSString* const kQTZCOMP_PARAMKEY_MEDIATYPE                     = @"mediatype";
 NSString* const kQTZCOMP_PARAMKEY_MEDIAPATH                     = @"mediapath";
@@ -73,7 +75,9 @@ const float kLEDCOMPLETE_WINDOW_POS_Y                   = 784;
 @synthesize customQuartzCompositionPath   = _customQuartzCompositionPath;
 @synthesize hasCustomQuartzComposition    = _hasCustomQuartzComposition;
 @synthesize quartzArgumentsDictionary     = _quartzArgumentsDictionary;
+@synthesize websiteURL                    = _websiteURL;
 @synthesize hasMediaSet                   = _hasMediaSet;
+@synthesize hasWebsite                    = _hasWebsite;
 
 
 /*!
@@ -89,12 +93,15 @@ const float kLEDCOMPLETE_WINDOW_POS_Y                   = 784;
         _windowSize                   = NSMakeSize(kDEFAULT_WINDOW_WIDTH, kDEFAULT_WINDOW_HEIGHT);
         _customQuartzCompositionPath  = [[NSBundle mainBundle] pathForResource:@"QuartzCompositionPlayer" ofType:@"qtz"];
         _quartzArgumentsDictionary    = [NSMutableDictionary dictionary];
+        _websiteURL                   = @"https://www.apple.com";
         _hasCustomQuartzComposition   = NO;
+        
         
         _hasSizeSet     = NO;
         _hasOriginSet   = NO;
         _hasArgsSet     = NO;
         _hasMediaSet    = NO;
+        _hasWebsite     = NO;
         
         [self processCmdLineArguments:commandLineArguments];
     }
@@ -176,6 +183,18 @@ const float kLEDCOMPLETE_WINDOW_POS_Y                   = 784;
                 } else {
                     NSLog(@"[ERROR]: Can't initialize window with origin \"%@\". Please use -help for a list of available command line arguments.", tmp);
                     exit(1);
+                }
+            }
+        }
+        else if ([arg hasPrefix: kCMDLN_TRIGGER_WEBSITE]) {
+            if (!_hasWebsite) {
+                if (_hasMediaSet) {
+                    NSLog(@"[WARNING] You already set the application to load a media type. \"%@\" will be ignored.", arg);
+                } else if (_hasCustomQuartzComposition) {
+                    NSLog(@"[WARNING] You already set the application to load a custom Quartz composition. \"%@\" will be ignored.", arg);
+                } else {
+                    _hasWebsite = YES;
+                    [self processWebsiteFromArgument:arg];
                 }
             }
         }
@@ -596,6 +615,39 @@ const float kLEDCOMPLETE_WINDOW_POS_Y                   = 784;
     
     if (!pathSet) {
         NSLog(@"[ERROR] You haven't set a path for the presentation images.");
+        exit(1);
+    }
+}
+
+- (void)processWebsiteFromArgument:(NSString *)argument {
+    NSString* argString = [[argument componentsSeparatedByString:kCMDLN_SEPARATOR_ARG_KEY_VALUE] lastObject];
+    
+    Boolean urlSet = NO;
+    
+    if ( ![argString hasPrefix:@"{"]) {
+        NSLog(@"[ERROR] Can't process your website arguments. No opening \"{\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
+        exit(1);
+    } else if ( ![argument hasSuffix:@"}"]) {
+        NSLog(@"[ERROR] Can't process your website arguments. No opening \"}\" for argument list found. Arguments have to be surrounded by \"{ }\" and separated by \",\"to be accepted.");
+        exit(1);
+    } else {
+        argString = [argString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"{}"]];
+    }
+    
+    NSArray* paramArray = [argString componentsSeparatedByString:kCMDLN_SEPARATOR_ARG_VALUE_SUBVALUE_SUBVALUE];
+    
+    for (NSString* param in paramArray) {
+        if ([param hasPrefix:kCMDLN_TRIGGER_WEBSITE_URL]) {
+            urlSet = YES;
+            NSString* url = @"";
+            NSArray* urlArray = [param componentsSeparatedByString:kCMDLN_SEPARATOR_ARG_VALUE_SUBKEY_SUBVALUE];
+            for (int i = 1; i<)
+            NSLog(@"[INFO] Will load website from URL \"%@\".", url);
+        }
+    }
+    
+    if (!urlSet) {
+        NSLog(@"[ERROR] You haven't set a URL for the website.");
         exit(1);
     }
 }

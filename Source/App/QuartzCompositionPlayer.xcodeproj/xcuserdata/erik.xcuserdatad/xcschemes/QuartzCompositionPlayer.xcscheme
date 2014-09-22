@@ -108,6 +108,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-presentation={path:&quot;/Users/erik/Documents/Bilder&quot;,duration:2.0,loops:2}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-website={url:file:///Users/erik/Development/fol2014/horse-racing/site/index.html}"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-website={url:http://www.google.de}"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

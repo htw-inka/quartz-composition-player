@@ -12,6 +12,7 @@ extern NSString* const kCMDLN_TRIGGER_HELP;
 extern NSString* const kCMDLN_TRIGGER_SIZE;
 extern NSString* const kCMDLN_TRIGGER_ORIGIN;
 extern NSString* const kCMDLN_TRIGGER_COMPOSITION;
+extern NSString* const kCMDLN_TRIGGER_WEBSITE;
 extern NSString* const kCMDLN_TRIGGER_ARGS;
 extern NSString* const kCMDLN_SEPARATOR_ARG_KEY_VALUE;
 extern NSString* const kCMDLN_SEPARATOR_ARG_VALUE_SUBKEY_SUBVALUE;
@@ -30,6 +31,7 @@ extern NSString* const kCMDLN_TRIGGER_MEDIA_START;
 extern NSString* const kCMDLN_TRIGGER_MEDIA_DURATION;
 extern NSString* const kCMDLN_TRIGGER_MEDIA_RATE;
 extern NSString* const kCMDLN_TRIGGER_MEDIA_CONTROL;
+extern NSString* const kCMDLN_TRIGGER_WEBSITE_URL;
 
 extern NSString* const kQTZCOMP_PARAMKEY_MEDIATYPE;
 extern NSString* const kQTZCOMP_PARAMKEY_MEDIAPATH;
@@ -77,7 +79,9 @@ extern const float kLEDCOMPLETE_WINDOW_POS_Y;
 @property(assign,readonly) NSSize               windowSize;
 @property(retain,readonly) NSString             *customQuartzCompositionPath;
 @property(retain,readonly) NSMutableDictionary  *quartzArgumentsDictionary;
+@property(retain,readonly) NSString             *websiteURL;
 @property(assign,readonly) Boolean              hasCustomQuartzComposition;
+@property(assign,readonly) Boolean              hasWebsite;
 @property(assign,readonly) Boolean              hasMediaSet;
 
 - (id)init __attribute__((unavailable("Use 'initWithArguments' instead.")));
