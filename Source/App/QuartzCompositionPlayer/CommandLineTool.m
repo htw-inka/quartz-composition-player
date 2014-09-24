@@ -639,10 +639,14 @@ const float kLEDCOMPLETE_WINDOW_POS_Y                   = 784;
     for (NSString* param in paramArray) {
         if ([param hasPrefix:kCMDLN_TRIGGER_WEBSITE_URL]) {
             urlSet = YES;
-            NSString* url = @"";
+            _websiteURL = @"";
             NSArray* urlArray = [param componentsSeparatedByString:kCMDLN_SEPARATOR_ARG_VALUE_SUBKEY_SUBVALUE];
-            for (int i = 1; i<)
-            NSLog(@"[INFO] Will load website from URL \"%@\".", url);
+            for (int i = 1; i<urlArray.count; i++) {
+                if ( [[urlArray objectAtIndex:i] hasPrefix:@"//"] && ![[urlArray objectAtIndex:i] isEqualToString:@"//"])
+                    _websiteURL = [_websiteURL stringByAppendingString:@":"];
+                _websiteURL = [_websiteURL stringByAppendingString: [urlArray objectAtIndex:i]];
+            }
+            NSLog(@"[INFO] Will load website from URL \"%@\".", _websiteURL);
         }
     }
     

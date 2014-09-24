@@ -19,6 +19,8 @@
 {
     // THIS IS THE PART WHERE WE PROCESS COMMAND LINE ARGUMENTS
     _cmdLineTool = [[CommandLineTool alloc] initWithArguments:[[NSProcessInfo processInfo] arguments]];
+    window = [[MyWindow alloc] init];
+    [window setStyleMask:NSBorderlessWindowMask];
         
         
     if (_cmdLineTool.hasMediaSet || _cmdLineTool.hasCustomQuartzComposition) {
@@ -57,7 +59,23 @@
         // HERE WE PROGRAMATICALLY CREATE THE WEBVIEW
         webView = [[WebView alloc] initWithFrame:[self.window.contentView frame]];
         [self.window.contentView addSubview:webView];
-        [webView setMainFrameURL:_cmdLineTool.websiteURL];
+        
+        //THIS IS FOR PROGRAMMATIC AUTO-LAYOUT...
+        [webView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        NSDictionary *views = NSDictionaryOfVariableBindings(webView);
+        [self.window.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webView]|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:views]];
+        [self.window.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[webView]|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:views]];
+        
+        [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_cmdLineTool.websiteURL]]];
+        NSLog(@"Window can become key window: %i",[window canBecomeKeyWindow]);
     }
     
     else {
@@ -65,9 +83,9 @@
         exit(0);
     }
         
-    // NOW WE RESET THE SIZE AND POSITION OF THE WINDOW AND BRING IT TO THE FRONT; THE QUARTZVIEW WILL AUTOMATICALLY RESIZE
+    // NOW WE RESET THE SIZE AND POSITION OF THE WINDOW AND BRING IT TO THE FRONT; THE QUARTZVIEW/WEBVIEW WILL AUTOMATICALLY RESIZE
     [window setFrame:NSMakeRect(_cmdLineTool.windowOrigin.x, _cmdLineTool.windowOrigin.y, _cmdLineTool.windowSize.width, _cmdLineTool.windowSize.height) display:YES];
-    [window orderFront: nil];
+    [window makeKeyAndOrderFront: nil];
 }
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename{

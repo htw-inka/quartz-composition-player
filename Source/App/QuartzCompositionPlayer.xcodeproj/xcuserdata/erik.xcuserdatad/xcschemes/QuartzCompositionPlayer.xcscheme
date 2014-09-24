@@ -63,7 +63,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-window-origin=100,100"
+            argument = "-window-origin=0,0"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -79,7 +79,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-window-size=900,300"
+            argument = "-window-size=1920,1200"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -115,7 +115,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-website={url:http://www.google.de}"
+            argument = "-website={url:http://www.apple.com}"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

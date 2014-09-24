@@ -10,6 +10,7 @@
 #import <Quartz/Quartz.h>
 #import <WebKit/WebKit.h>
 #import "CommandLineTool.h"
+#import "MyWindow.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
@@ -20,7 +21,7 @@
     
 }
 
-@property(assign) IBOutlet NSWindow *window;
+@property(retain) IBOutlet MyWindow *window;
 @property(retain) IBOutlet QCView *qcView;
 @property(retain) IBOutlet WebView *webView;
 @property(retain) IBOutlet NSObjectController *objectController;

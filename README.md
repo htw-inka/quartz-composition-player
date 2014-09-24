@@ -102,6 +102,11 @@ optional parameter  | `control:<value>`
 :-----              | :-----
                     | Substitue `<value>` with `manual` if you want to manually control the presentation. Show next slide with: `left mouse button`, `space key`, `return key`, `arrow right key` or `arrow down key`. Show previous slide with: `right mouse button`, `backspace key`, `arrow left key` or `arrow up key`. There is also an OSC receiver listing on port 60000 waiting for `/presentation/next/1` resp. `/presentation/prev/1` messages to control the presentation. **BEWARE:** Switching to manual controls will ignore your settings for `duration:<value>` and `loops:<value>`. 
 
+### Loading a website
+argument    |`-website={url:<url>}`
+:------     | :------
+            | Display a website with the given URL. The website will resize according to the window size. Substitute `<url>` with a URL to the website you want to display. (required)
+
 ### Examples ###
 command line        | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -windows-size=1280,1024 -window-origin=200,200 -image={path:/Users/inka/Development/Images/Image.png,width:full,height:100}`
 :------             | :------
@@ -114,3 +119,7 @@ result              | The command will start the application loading the video l
 commad line         | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -presentation={path:"/Users/inka/Documents/Bilder",duration:2.0,loops:2}`
 :-----              | :-----
 result              | The command will start the application loading all images inside the path "/Users/inka/Documents/Bilder", showing each image for "2.0" seconds and showing the whole presentation "2" times.
+
+command line        | `"/Users/inka/Development/quartz-composition-player/Binary/QuartzCompositionPlayer_10.7_10.8_10.9_x86_x64.app/Contents/MacOS/QuartzCompositionPlayer" -url={url:http://www.apple.com}`
+:-----              | :-----
+result              | The command will start the application loading the website behind the web address "http://www.apple.com".
